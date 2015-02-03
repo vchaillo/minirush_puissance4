@@ -6,7 +6,7 @@
 /*   By: gallard <gallard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/09/27 16:13:55 by gallard           #+#    #+#             */
-/*   Updated: 2015/01/16 17:24:14 by gallard          ###   ########.fr       */
+/*   Updated: 2015/02/03 16:31:02 by vchaillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ void	p4_disp(t_grid *grid);
 int		p4_play(t_grid *grid, int col, t_case color);
 int		p4_unplay(t_grid *grid, int col, t_case color);
 int		p4_legal(t_grid *grid, int col);
+//int		pr0n_max(t_grid *grid, int depth, int color);
+//int		pr0n_min(t_grid *grid, int depth, int color);
+//int		pr0n_eval(t_grid *grid, int color);
 
 /* p4_won.c */
 int		p4_won(t_grid *grid, int col);
