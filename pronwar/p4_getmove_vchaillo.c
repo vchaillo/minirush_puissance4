@@ -6,7 +6,7 @@
 /*   By: gallard <gallard@student.42.fr             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/16 16:13:55 by gallard           #+#    #+#             */
-/*   Updated: 2015/02/03 16:42:04 by vchaillo         ###   ########.fr       */
+/*   Updated: 2015/03/22 00:52:28 by vchaillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 # define DEPTH 3
 
-int		pr0n_max(t_grid *grid, int depth, int color);
-int		pr0n_min(t_grid *grid, int depth, int color);
-int		pr0n_eval(t_grid *grid, int color);
+int		pr0n_max(t_grid *grid, int depth, int color, int turn_count);
+int		pr0n_min(t_grid *grid, int depth, int color, int turn_count);
+int		pr0n_eval(t_grid *grid, int color, int turn_count);
 
 /*
 ** ------------------------------------------------------------------
@@ -48,15 +48,16 @@ int		pr0n_eval(t_grid *grid, int color);
 **		you and your opponent (remember your grid is a copy)
 */
 
-int		pr0n_eval(t_grid *grid, int color)
+int		pr0n_eval(t_grid *grid, int color, int turn_count)
 {
 	(void)color;
 	(void)grid;
-	return(1);
+	(void)turn_count;
+	return(6);
 	
 }
 
-int		pr0n_max(t_grid *grid, int depth, int color)
+int		pr0n_max(t_grid *grid, int depth, int color, int turn_count)
 {
 	int		max;
 	int		i;
@@ -66,7 +67,7 @@ int		pr0n_max(t_grid *grid, int depth, int color)
 	max = -10000;
 	i = 0;
 	if (depth == 0 || p4_won(grid, color))
-		pr0n_eval(grid, color);
+		return (pr0n_eval(grid, color, turn_count));
 	while (i < GRID_H)
 	{
 		j = 0;
@@ -75,7 +76,7 @@ int		pr0n_max(t_grid *grid, int depth, int color)
 			if ((*grid)[i][j] == VIDE)
 			{
 				p4_play(grid, j, color);
-				tmp = pr0n_min(grid, depth - 1, color);
+				tmp = pr0n_min(grid, depth - 1, color, turn_count);
 				if (tmp > max)
 					max = tmp;
 				p4_unplay(grid, j, color);
@@ -87,7 +88,7 @@ int		pr0n_max(t_grid *grid, int depth, int color)
 	return (max);
 }
 
-int		pr0n_min(t_grid *grid, int depth, int color)
+int		pr0n_min(t_grid *grid, int depth, int color, int turn_count)
 {
 	int		min;
 	int		i;
@@ -97,7 +98,7 @@ int		pr0n_min(t_grid *grid, int depth, int color)
 	min = -10000;
 	i = 0;
 	if (depth == 0 || p4_won(grid, color))
-		pr0n_eval(grid, color);
+		return (pr0n_eval(grid, color, turn_count));
 	while (i < GRID_H)
 	{
 		j = 0;
@@ -106,7 +107,7 @@ int		pr0n_min(t_grid *grid, int depth, int color)
 			if ((*grid)[i][j] == VIDE)
 			{
 				p4_play(grid, j, color);
-				tmp = pr0n_max(grid, depth - 1, color);
+				tmp = pr0n_max(grid, depth - 1, color, turn_count);
 				if (tmp < min)
 					min = tmp;
 				p4_unplay(grid, j, color);
@@ -137,8 +138,9 @@ int		p4_getmove_vchaillo(t_grid *grid, t_case color, int turn_count)
 			if ((*grid)[i][j] == VIDE)
 			{
 				p4_play(grid, j, color);
-				tmp = pr0n_min(grid, DEPTH, color);
-//				printf("%d", move);
+//				puts("caca");
+				tmp = pr0n_min(grid, DEPTH, color, turn_count);
+//				puts("pipi");
 				if (tmp > max)
 				{
 					max = tmp;
@@ -150,6 +152,5 @@ int		p4_getmove_vchaillo(t_grid *grid, t_case color, int turn_count)
 		}
 		i++;
 	}
-	(void)turn_count;
 	return (move);
 }
